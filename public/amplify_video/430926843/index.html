@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Video LP</title>
+
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+      height: 100%;
+      overflow: hidden;
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+    }
+
+    video {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* 音声ON/OFFボタン */
+    .audio-btn {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,.6);
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 20px;
+      font-size: 14px;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    /* 吹き出し */
+    .popup {
+      position: fixed;
+      bottom: 140px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #3b82f6;
+      color: #fff;
+      padding: 14px 18px;
+      border-radius: 12px;
+      font-size: 14px;
+      text-align: center;
+      line-height: 1.4;
+      width: 80%;
+      max-width: 320px;
+      display: none;
+      z-index: 10;
+      animation: fadeIn .5s ease;
+    }
+
+    .popup a {
+      color: #fff;
+      text-decoration: underline;
+      font-weight: bold;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translate(-50%, 10px); }
+      to { opacity: 1; transform: translate(-50%, 0); }
+    }
+  </style>
+</head>
+<body>
+
+  <video id="video" autoplay muted playsinline>
+    <source src="https://cdn.videy.co/ZwdCN9621.mp4" type="video/mp4">
+  </video>
+
+  <div class="audio-btn" id="audioBtn">音声ON</div>
+
+  <div class="popup" id="popup">
+    配信をもっと見る<br>
+    （かんなで検索🔍）<br>
+    <small>※5秒で配信先に移動</small><br><br>
+    <a href="https://example.com" id="popupLink">配信先はこちら</a>
+  </div>
+
+  <script>
+    const video = document.getElementById("video");
+    const audioBtn = document.getElementById("audioBtn");
+    const popup = document.getElementById("popup");
+    const popupLink = document.getElementById("popupLink");
+
+    // ===== 設定値 =====
+    const POPUP_DELAY = 3000;   // 吹き出し表示まで（ms）
+    const REDIRECT_DELAY = 5000; // 遷移まで（ms）
+    const REDIRECT_URL = "https://ad-nex.com/u/aia0xqrkrz39";
+    // ==================
+
+    popupLink.href = REDIRECT_URL;
+
+    audioBtn.onclick = () => {
+      video.muted = !video.muted;
+      audioBtn.textContent = video.muted ? "音声ON" : "音声OFF";
+    };
+
+    setTimeout(() => {
+      popup.style.display = "block";
+
+      setTimeout(() => {
+        location.href = REDIRECT_URL;
+      }, REDIRECT_DELAY);
+
+    }, POPUP_DELAY);
+  </script>
+
+</body>
+</html>
